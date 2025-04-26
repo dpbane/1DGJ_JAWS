@@ -1,14 +1,9 @@
 ﻿#pragma once
 
 #include "game_object.h"
+#include "object_handle.h"
 
 namespace base {
-
-struct ObjectHandle {
-  uint32 index;
-  uint32 generation;
-};
-
 
 class GameObjectManager {
 public:

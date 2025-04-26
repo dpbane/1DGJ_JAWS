@@ -337,6 +337,7 @@
     <ClInclude Include="base_system\frame_rate_limit\frame_rate_limit.h" />
     <ClInclude Include="base_system\game_object\game_object.h" />
     <ClInclude Include="base_system\game_object\game_object_manager.h" />
+    <ClInclude Include="base_system\game_object\object_handle.h" />
     <ClInclude Include="base_system\graphic_manager\GraphicRegion.h" />
     <ClInclude Include="base_system\graphic_manager\graphic_manager.h" />
     <ClInclude Include="base_system\input_manager\input_manager.h" />

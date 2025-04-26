@@ -19,7 +19,8 @@ void GameObjectManager::Update() {
   Array<int> index_list;
   index_list.reserve(game_object_.size());
   for (int index = 0; const auto & obj : game_object_) {
-    if (obj) index_list.push_back(index++);
+    if (obj) index_list.push_back(index);
+    index++;
   }
 
   // インデックスのソート
@@ -41,7 +42,8 @@ void GameObjectManager::Render() const {
   Array<int> index_list;
   index_list.reserve(game_object_.size());
   for (int index = 0; const auto & obj : game_object_) {
-    if (obj) index_list.push_back(index++);
+    if (obj) index_list.push_back(index);
+    index++;
   }
 
   // インデックスのソート
@@ -63,20 +65,24 @@ ObjectHandle GameObjectManager::Add(std::unique_ptr<GameObject> object) {
     const auto index = static_cast<uint32>(std::distance(game_object_.begin(), itr));
     game_object_[index] = std::move(object);
     current_minimum_index_ = index + 1;
-    return ObjectHandle {
+    ObjectHandle handle {
       .index = index,
       .generation = generation_[index]
     };
+    game_object_[index]->SetHandle(this, handle);
+    return handle;
   }
 
   // 新規作成
   game_object_.push_back(std::move(object));
   generation_.push_back(0);
   current_minimum_index_ = (uint32)(game_object_.size() - 1);
-  return ObjectHandle {
+  ObjectHandle handle {
         .index = (uint32)(game_object_.size() - 1),
         .generation = 0
   };
+  game_object_[handle.index]->SetHandle(this, handle);
+  return handle;
 }
 
 ObjectHandle GameObjectManager::AddDynamic(std::unique_ptr<GameObject> object) {
@@ -90,10 +96,12 @@ bool GameObjectManager::Kill(const ObjectHandle& handle) {
   if (not ValidHandle(handle)) return false;
 
   // 解放処理
+
   if (current_minimum_index_ > handle.index) current_minimum_index_ = handle.index;
+  generation_[handle.index] += 1;
   game_object_[handle.index]->Release();
-  game_object_[handle.index].release();
-  ++(generation_[handle.index]);
+  game_object_[handle.index].reset();
+  return true;
 }
 
 GameObject* GameObjectManager::Get(const ObjectHandle& handle) const {

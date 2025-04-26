@@ -6,7 +6,9 @@ namespace game {
 
 class TestObject2 : public base::GameObject {
 public:
-  TestObject2(const Vec2& position, const Vec2& velocity) : position_(position), velocity_(velocity) {}
+  TestObject2(const Vec2& position,
+              const Vec2& velocity) : position_(position), velocity_(velocity) {
+  }
   ~TestObject2() override = default;
 
 

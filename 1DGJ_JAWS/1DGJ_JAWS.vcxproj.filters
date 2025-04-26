@@ -881,5 +881,8 @@
     <ClInclude Include="game\object\test_object_2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="base_system\game_object\object_handle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
