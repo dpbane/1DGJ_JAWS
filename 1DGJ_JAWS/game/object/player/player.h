@@ -60,6 +60,8 @@ private:
   void SetState(StateEnum s);
   void GravityProcess();
   void EnemyInteractProcess();
+  bool HitAgainst(EnemyBase* enemy);
+  bool TakeAgainst(EnemyBase* enemy);
 
   void DoJump();
 
@@ -67,6 +69,9 @@ private:
   HashTable<StateEnum, std::unique_ptr<State>> state_map_;
   StateEnum state_;
   int max_hp_ { 8 };
+  double invinsible_time_ { 0.0 };  // 無敵時間。0より大きいと有効
+
+  HashSet<EnemyBase*> attack_enemy_set_;
 
 };
 

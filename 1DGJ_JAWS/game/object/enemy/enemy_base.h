@@ -11,12 +11,15 @@ public:
   EnemyBase(Terrain* terrain) : terrain_(terrain) {}
   virtual ~EnemyBase() = default;
 
-  //virtual void Release() = 0;
-  bool Update() override;
-  // virtual void Render(const Camera2D& camera) const = 0;
+  virtual void Setup() = 0;
+  virtual void Render(const Camera2D& camera) const = 0;
+  virtual void Release() = 0;
+  virtual Optional<int> UpdateOrder() const = 0;
+  virtual Optional<int> RenderOrder() const = 0;
 
-  // virtual Optional<int> UpdateOrder() const = 0;
-  //virtual Optional<int> RenderOrder() const = 0;
+  bool Update() override;
+
+
   Optional<int> Tag() const override { return (int)ObjectTag::Enemy; }
 
   bool EnemyPreUpdate();
@@ -33,6 +36,7 @@ public:
   Array<Rect> GetHitbox() const;
   Array<Rect> GetAttackbox() const;
   Optional<Rect> GetTerrainbox() const;
+  int GetAtkPower() const { return atk_power_; }
 
 protected:
   Vec2 position_ {};

@@ -3,6 +3,8 @@
 
 #include "game/object/ui/ui_master.h"
 
+#include "game/object/enemy/dummy.h"
+
 namespace scene {
 
 Level1::Level1(const InitData& init) : IScene { init } {
@@ -13,6 +15,8 @@ Level1::Level1(const InitData& init) : IScene { init } {
   player_ = m_object_.GetAs<game::Player>(player_hanlde).value();
 
   m_object_.Add(std::make_unique<game::UiMaster>(player_));
+
+  m_object_.Add(std::make_unique<game::DummyEnemy>(terrain_, Vec2(200, 400)));
 }
 
 void Level1::update() {

@@ -28,8 +28,8 @@ bool EnemyBase::EnemyPostUpdate() {
   {
     position_.x += velocity_.x * Scene::DeltaTime();
     const Point pos = Point((int)position_.x, (int)position_.y);
-    const auto& box_raw = GetTerrainbox().value();
-    const auto& box = box_raw.movedBy(pos);
+    const auto& box_raw = terrainbox_.value();
+    const auto& box = GetTerrainbox().value();
     if (terrain_->Conflict(box)) {
       if (velocity_.x > 0) {
         position_.x = terrain_->NearestX(box.rightX()) - box_raw.rightX();
@@ -45,8 +45,8 @@ bool EnemyBase::EnemyPostUpdate() {
   {
     position_.y += velocity_.y * Scene::DeltaTime();
     const Point pos = Point((int)position_.x, (int)position_.y);
-    const auto& box_raw = GetTerrainbox().value();
-    const auto& box = box_raw.movedBy(pos);
+    const auto& box_raw = terrainbox_.value();
+    const auto& box = GetTerrainbox().value();
     if (terrain_->Conflict(box)) {
       if (velocity_.y >= 0) {
         position_.y = terrain_->NearestY(box.bottomY()) - box_raw.bottomY();
@@ -73,42 +73,56 @@ void EnemyBase::RenderHitbox(const Camera2D& camera) const {
   const Point pos = Point((int)position_.x, (int)position_.y);
 
   for (const auto& box : GetHitbox()) {
-    box.movedBy(pos).draw(ColorF(0.2, 0.2, 0.9, 0.3))
+    box.draw(ColorF(0.2, 0.2, 0.9, 0.3))
       .drawFrame(1.0, ColorF(0.3, 0.3, 1.0));
   }
 
   for (const auto& box : GetAttackbox()) {
-    box.movedBy(pos).draw(ColorF(0.9, 0.2, 0.2, 0.3))
+    box.draw(ColorF(0.9, 0.2, 0.2, 0.3))
       .drawFrame(1.0, ColorF(1.0, 0.3, 0.3));
   }
 
   if (const auto box = GetTerrainbox()) {
-    box->movedBy(pos).draw(ColorF(0.2, 0.9, 0.2, 0.3))
+    box->draw(ColorF(0.2, 0.9, 0.2, 0.3))
       .drawFrame(1.0, ColorF(0.3, 1.0, 0.3));
   }
 }
 
 Array<Rect> EnemyBase::GetHitbox() const {
-  if (not is_flipped_) return hitbox_;
+  const Point pos = Point((int)position_.x, (int)position_.y);
   Array<Rect> ret;
   for (const auto& box : hitbox_) {
-    ret.emplace_back(Point { -box.rightX(), box.y }, box.size);
+    if (is_flipped_) {
+      ret.push_back(Rect(Point { -box.rightX(), box.y }, box.size).movedBy(pos));
+    }
+    else {
+      ret.push_back(box.movedBy(pos));
+    }
   }
   return ret;
 }
 
 Array<Rect> EnemyBase::GetAttackbox() const {
-  if (not is_flipped_) return attackbox_;
+  const Point pos = Point((int)position_.x, (int)position_.y);
   Array<Rect> ret;
   for (const auto& box : attackbox_) {
-    ret.emplace_back(Point { -box.rightX(), box.y }, box.size);
+    if (is_flipped_) {
+      ret.push_back(Rect(Point { -box.rightX(), box.y }, box.size).movedBy(pos));
+    }
+    else {
+      ret.push_back(box.movedBy(pos));
+    }
   }
   return ret;
 }
 
 Optional<Rect> EnemyBase::GetTerrainbox() const {
   if (not terrainbox_.has_value()) return none;
-  return Rect { Point{ -terrainbox_->rightX(), terrainbox_->y }, terrainbox_->size };
+  const Point pos = Point((int)position_.x, (int)position_.y);
+  if (is_flipped_) {
+    return Rect { Point{ -terrainbox_->rightX(), terrainbox_->y }, terrainbox_->size }.movedBy(pos);
+  }
+  return terrainbox_->movedBy(pos);
 }
 
 }

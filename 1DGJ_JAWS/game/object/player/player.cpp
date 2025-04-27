@@ -19,6 +19,10 @@ Player::Player(Terrain* terrain, const Vec2& position) :
   previous_hp_ = max_hp_;
 
   hitbox_.emplace_back(-30, -62, 60, 124);
+
+  // 仮置き
+  attackbox_.emplace_back(-64, -32, 32, 32);
+
   terrainbox_ = Rect(-32, -64, 64, 128);
 
   SetState(StateEnum::Stand);
@@ -62,6 +66,7 @@ bool Player::MainUpdate() {
   state_map_.at(state_)->Update(*this);
 
   GravityProcess();
+  EnemyInteractProcess();
 
   return true;
 }
@@ -77,9 +82,44 @@ void Player::GravityProcess() {
 
 void Player::EnemyInteractProcess() {
   auto enemy_array = gom_->Find((int)ObjectTag::Enemy);
-  for (auto& enemy : enemy_array) {
+  for (auto* enemy_object : enemy_array) {
+    EnemyBase* enemy = reinterpret_cast<EnemyBase*>(enemy_object);
+
+    // こちらの攻撃判定
+    const bool hit = HitAgainst(enemy);
+    if (hit && not attack_enemy_set_.contains(enemy)) {
+      attack_enemy_set_.insert(enemy);
+      enemy->TakeDamage(atk_power_);
+    }
+    if (not hit && attack_enemy_set_.contains(enemy)) {
+      attack_enemy_set_.erase(enemy);
+    }
+
+    // 向こうの攻撃判定
+    if (invinsible_time_ == 0.0 && TakeAgainst(enemy)) {
+      TakeDamage(enemy->GetAtkPower());
+      // TODO 被弾処理
+    }
 
   }
+}
+
+bool Player::HitAgainst(EnemyBase* enemy) {
+  for (const auto& b : GetAttackbox()) {
+    for (const auto& e : enemy->GetHitbox()) {
+      if (b.intersects(e)) return true;
+    }
+  }
+  return false;
+}
+
+bool Player::TakeAgainst(EnemyBase* enemy) {
+  for (const auto& b : GetHitbox()) {
+    for (const auto& e : enemy->GetAttackbox()) {
+      if (b.intersects(e)) return true;
+    }
+  }
+  return false;
 }
 
 void Player::DoJump() {
