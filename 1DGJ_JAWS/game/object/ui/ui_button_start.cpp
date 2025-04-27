@@ -3,7 +3,7 @@
 namespace game {
 
 UiButtonStart::UiButtonStart(const Rect& rect) {
-  text_ = U"いてこますならクリック";
+  text_ = U"いてこますならSpace";
   rect_ = rect;
 }
 
