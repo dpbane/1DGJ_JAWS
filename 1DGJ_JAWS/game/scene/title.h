@@ -22,5 +22,6 @@ public:
 private:
   base::GameObjectManager m_object_;
   Camera2D camera_ { Vec2{ 0, 0 }, 1.0, CameraControl::None_ };
+  //AudioAsset titleAudio;
 };
 }

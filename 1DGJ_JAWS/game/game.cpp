@@ -38,6 +38,8 @@ void Game::Setup() {
 
   ref::MAudio.Register(audio::Handle::Sample, U"resource/audio/maou_se_system46.ogg");
 
+  ref::MAudio.Register(audio::Handle::Title, U"resource/audio/BGM_title.ogg");
+
   Addon::Register(U"FrameRateLimit", std::make_unique<base::FrameRateLimitAddon>(target_fps));
 
   scene_manager_.add<scene::Title>(scene::SceneEnum::Title);
