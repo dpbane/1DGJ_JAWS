@@ -6,7 +6,7 @@
 namespace scene {
 
 Level1::Level1(const InitData& init) : IScene { init } {
-  const auto terrain_handle = m_object_.Add(std::make_unique<game::Terrain>());
+  const auto terrain_handle = m_object_.Add(std::make_unique<game::Terrain>(U"resource/map/level1.csv", graphic::Handle::MapChip1));
   terrain_ = m_object_.GetAs<game::Terrain>(terrain_handle).value();
 
   const auto player_hanlde = m_object_.Add(std::make_unique<game::Player>(terrain_, Vec2(100, 100)));

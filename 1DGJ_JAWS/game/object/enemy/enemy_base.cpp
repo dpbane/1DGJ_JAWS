@@ -3,6 +3,13 @@
 
 namespace game {
 
+bool EnemyBase::Update() {
+  if (not EnemyPreUpdate()) return false;
+  if (not MainUpdate()) return false;
+  if (not EnemyPostUpdate()) return false;
+  return true;
+}
+
 bool EnemyBase::EnemyPreUpdate() {
   bool ret { true };
   if (hp_ <= 0 && previous_hp_ > 0) ret = OnHpZero();
@@ -30,7 +37,7 @@ bool EnemyBase::EnemyPostUpdate() {
       if (velocity_.x < 0) {
         position_.x = terrain_->NearestX(box.leftX()) - box_raw.leftX();
       }
-      velocity_.x = 0;
+      //velocity_.x = 0;
     }
   }
 

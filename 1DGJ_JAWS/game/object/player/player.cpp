@@ -40,20 +40,6 @@ Player::Player(Terrain* terrain, const Vec2& position) :
 void Player::Setup() {
 }
 
-bool Player::Update() {
-  EnemyPreUpdate();
-
-  while (const auto new_state = state_map_.at(state_)->Transition(*this)) {
-    SetState(new_state.value());
-  }
-  state_map_.at(state_)->Update(*this);
-
-  GravityProcess();
-
-  EnemyPostUpdate();
-  return true;
-}
-
 void Player::Render(const Camera2D& camera) const {
   {
     const auto t = camera.createTransformer();
@@ -69,6 +55,17 @@ void Player::Render(const Camera2D& camera) const {
 void Player::Release() {
 }
 
+bool Player::MainUpdate() {
+  while (const auto new_state = state_map_.at(state_)->Transition(*this)) {
+    SetState(new_state.value());
+  }
+  state_map_.at(state_)->Update(*this);
+
+  GravityProcess();
+
+  return true;
+}
+
 void Player::SetState(StateEnum s) {
   state_ = s;
 }
@@ -78,9 +75,18 @@ void Player::GravityProcess() {
   velocity_.y = std::min(velocity_.y, kMaxVelcity);
 }
 
+void Player::EnemyInteractProcess() {
+  auto enemy_array = gom_->Find((int)ObjectTag::Enemy);
+  for (auto& enemy : enemy_array) {
+
+  }
+}
+
 void Player::DoJump() {
   velocity_.y = kJumpVelocity;
   SetState(StateEnum::Air);
+
+
 }
 
 

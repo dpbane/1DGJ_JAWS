@@ -23,6 +23,9 @@ void Game::Setup() {
   ref::MGraphic.Register(graphic::Handle::Itekoma, U"resource/image/itekoma.png");
   ref::MGraphic.RegisterChip(graphic::Handle::Sample, 16, 16, 6);
 
+  ref::MGraphic.Register(graphic::Handle::MapChip1, U"resource/image/mapchip1.png");
+  ref::MGraphic.RegisterChip(graphic::Handle::MapChip1, 64, 64, 3);
+
   ref::MAudio.Register(audio::Handle::Sample, U"resource/audio/maou_se_system46.ogg");
 
   Addon::Register(U"FrameRateLimit", std::make_unique<base::FrameRateLimitAddon>(target_fps));

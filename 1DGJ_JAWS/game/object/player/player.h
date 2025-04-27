@@ -2,10 +2,11 @@
 
 #include "base_system/game_object/game_object.h"
 #include "game/object/enemy/enemy_base.h"
+#include "game/object/object_tag.h"
 
 namespace game {
 
-class Player : public base::GameObject, public EnemyBase {
+class Player : public EnemyBase {
 public:
   enum class StateEnum {
     Stand,
@@ -40,15 +41,15 @@ public:
   ~Player() = default;
 
   void Setup() override;
-  bool Update() override;
   void Render(const Camera2D& camera) const override;
   void Release() override;
 
+  bool MainUpdate() override;
   bool OnHpZero() override { return true; }
 
   Optional<int> UpdateOrder() const override { return 100; }
   Optional<int> RenderOrder() const override { return 100; }
-  Optional<int> Tag() const override { return 100; }
+  Optional<int> Tag() const override { return (int)(ObjectTag::Player); }
 
   int GetHp() const { return hp_; }
   int GetMaxHp() const { return max_hp_; }
@@ -58,6 +59,8 @@ public:
 private:
   void SetState(StateEnum s);
   void GravityProcess();
+  void EnemyInteractProcess();
+
   void DoJump();
 
 private:

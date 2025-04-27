@@ -1,12 +1,30 @@
 ﻿#include "stdafx.h"
 #include "terrain.h"
 
+#include "game/reference.h"
+
 namespace game {
 
-constexpr int kChipSize = 50;  // 50は仮の数値。マップチップのサイズに合わせて変更
+constexpr int kChipSize = 64;
 
-Terrain::Terrain() {
+Terrain::Terrain(const FilePath& path_csv, graphic::Handle ghandle) :
+  path_csv_(path_csv), ghandle_(ghandle) {
+  CSV csv { path_csv_ };
+  if (not csv) return;
+
+  // マップのセルの数
+  y_count_ = csv.rows();
+  x_count_ = csv.columns(0);
+  map_ = Grid<int32>(x_count_, y_count_);
+
+  for (size_t y = 0; y < y_count_; ++y) {
+    for (size_t x = 0; x < x_count_; ++x) {
+      // 指定した行・列の値を読み込む
+      map_[y][x] = csv.get<int32>(y, x);
+    }
+  }
 }
+
 void Terrain::Setup() {
 }
 
@@ -15,75 +33,40 @@ bool Terrain::Update() {
 }
 
 void Terrain::Render(const Camera2D& camera) const {
+
   const auto t = camera.createTransformer();
-  const Rect dummy(0, 500, Scene::Width(), 100);
-  dummy.draw(ColorF(0.5, 0.5, 0.7));
 
-  // マップチップ用テクスチャ
-  MapChip mapchip;
+  const Vec2& center = camera.getCenter();
+  const int left_x = (center.x - Scene::Width() / 2) / kChipSize - 1;
+  const int right_x = (center.x + Scene::Width() / 2) / kChipSize + 1;
+  const int top_y = (center.y - Scene::Height() / 2) / kChipSize - 1;
+  const int bottom_y = (center.y + Scene::Height() / 2) / kChipSize + 1;
 
-  // マップのセルの数
-  constexpr Size MapSize { 5, 2 };
-  // CSC ファイルを読み込む
-  FilePathView path = U"MapChip/Level1/layer1.csv";
-  CSV csv { path };
-
-  // 読み込みに失敗したら
-  if (not csv)
-  {
-    // エラー
-    throw Error { U"Failed to load `{}`"_fmt(path) };
-  }
-
-  // 行数
-  const size_t yCount = csv.rows();
-
-  // 1 行目の列数（以降も同じ列数と仮定する）
-  const size_t xCount = csv.columns(0);
-
-  // 二次元配列
-  Grid<int32> mapLayer0(xCount, yCount);
-
-  for (size_t y = 0; y < yCount; ++y)
-  {
-    for (size_t x = 0; x < xCount; ++x)
-    {
-      // 指定した行・列の値を読み込む
-      mapLayer0[y][x] = csv.get<int32>(y, x);
+  // マップ
+  for (int32 y = top_y; y <= bottom_y; ++y) {
+    for (int32 x = left_x; x <= right_x; ++x) {
+      const Point pos { (x * kChipSize), (y * kChipSize) };
+      ref::MGraphic.GetTextureRegion(ghandle_, GetChip(x, y)).draw(pos);
     }
   }
-  if (mapLayer0.size() != MapSize)
-  {
-    // MapSize と、ロードしたデータのサイズが一致しない場合のエラー
-    throw Error { U"mapLayer0: {}"_fmt(mapLayer0.size()) };
-  }
-  while (System::Update()) {
-    // マップ
-    for (int32 y = 0; y < MapSize.y; ++y)
-    {
-      for (int32 x = 0; x < MapSize.x; ++x)
-      {
-        // マップチップの描画座標
-        const Point pos { (x * MapChip::MapChipSize), (y * MapChip::MapChipSize) };
-
-        // 最下層のマップチップ
-        if (const int32 chipIndex = mapLayer0[y][x];
-          chipIndex != 0) // 0 の場合は描画しない
-        {
-          mapchip.get(chipIndex).draw(pos);
-        }
-      }
-    }
-  }
-
 
 }
 void Terrain::Release() {
 }
 
 bool Terrain::Conflict(const Rect& box) const {
-  const Rect dummy(0, 500, Scene::Width(), 100);
-  return box.intersects(dummy);
+  int left = (box.leftX() + 1) / kChipSize;
+  int right = (box.rightX() - 1) / kChipSize;
+  int top = (box.topY() + 1) / kChipSize;
+  int bottom = (box.bottomY() - 1) / kChipSize;
+
+  for (int x = left; x <= right; ++x) {
+    for (int y = top; y <= bottom; ++y) {
+      if (IsWall(GetChip(x, y))) return true;
+    }
+  }
+
+  return false;
 }
 
 double Terrain::NearestX(double x) const {
@@ -92,6 +75,18 @@ double Terrain::NearestX(double x) const {
 
 double Terrain::NearestY(double y) const {
   return std::round(y / kChipSize) * kChipSize;
+}
+
+int Terrain::GetChip(int x, int y) const {
+  if (x < 0) return 0;
+  if (x >= x_count_) return 0;
+  if (y < 0) return 0;
+  if (y >= y_count_) return 0;
+  return map_[y][x];
+}
+
+bool Terrain::IsWall(int index) const {
+  return index != 0;
 }
 
 

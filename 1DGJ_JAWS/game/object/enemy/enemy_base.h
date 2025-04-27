@@ -1,17 +1,27 @@
 ﻿#pragma once
 
+#include "base_system/game_object/game_object.h"
 #include "game/object/terrain/terrain.h"
+#include "game/object/object_tag.h"
 
 namespace game {
 
-class EnemyBase {
+class EnemyBase abstract : public base::GameObject {
 public:
   EnemyBase(Terrain* terrain) : terrain_(terrain) {}
   virtual ~EnemyBase() = default;
 
+  //virtual void Release() = 0;
+  bool Update() override;
+  // virtual void Render(const Camera2D& camera) const = 0;
+
+  // virtual Optional<int> UpdateOrder() const = 0;
+  //virtual Optional<int> RenderOrder() const = 0;
+  Optional<int> Tag() const override { return (int)ObjectTag::Enemy; }
+
   bool EnemyPreUpdate();
   bool EnemyPostUpdate();
-
+  virtual bool MainUpdate() = 0;
   virtual bool OnHpZero() = 0;
 
   void TakeDamage(int damage) {

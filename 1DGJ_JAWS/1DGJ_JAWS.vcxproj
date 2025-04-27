@@ -368,8 +368,8 @@
     <ClInclude Include="game\object\effect\hit_effect.h" />
     <ClInclude Include="game\object\effect\itekomasu_cut_in.h" />
     <ClInclude Include="game\object\enemy\enemy_base.h" />
+    <ClInclude Include="game\object\object_tag.h" />
     <ClInclude Include="game\object\player\player.h" />
-    <ClInclude Include="game\object\terrain\mapchip.h" />
     <ClInclude Include="game\object\terrain\terrain.h" />
     <ClInclude Include="game\object\ui\ui_master.h" />
     <ClInclude Include="game\reference.h" />
