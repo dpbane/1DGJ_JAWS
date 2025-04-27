@@ -45,6 +45,10 @@ Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
 
 template<>
 void Player::StateImpl<S>::Update(Player& player) {
+  player.motion_time_ += Scene::DeltaTime();
+
+  player.frame_index_ = 2 + int(player.motion_time_ / 0.2) % 2;
+
   if (ref::MInput.Pressed(input::Action::Left)) {
     player.velocity_.x = -kWalkSpeed;
     player.is_flipped_ = false;

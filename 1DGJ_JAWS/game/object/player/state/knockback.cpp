@@ -18,6 +18,8 @@ Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
 
 template<>
 void Player::StateImpl<S>::Update(Player& player) {
+  player.frame_index_ = 6;
+
   if (player.on_ground_) {
     player.velocity_.x = 0;
     if (player.knockback_land_time_ < 0.0) {

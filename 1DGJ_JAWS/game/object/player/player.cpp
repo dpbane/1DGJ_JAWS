@@ -4,6 +4,8 @@
 #include "base_system/game_object/game_object_manager.h"
 #include "game/object/effect/hit_effect.h"
 
+#include "game/reference.h"
+
 namespace game {
 
 constexpr double kGravity = 2200.0;
@@ -21,12 +23,12 @@ Player::Player(Terrain* terrain, const Vec2& position) :
   hp_ = max_hp_;
   previous_hp_ = max_hp_;
 
-  hitbox_.emplace_back(-30, -62, 60, 124);
+  hitbox_.emplace_back(-30, -20, 60, 84);
 
   // 仮置き
   //attackbox_.emplace_back(-64, -32, 32, 32);
 
-  terrainbox_ = Rect(-32, -64, 64, 128);
+  terrainbox_ = Rect(-32, -44, 64, 108);
 
   SetState(StateEnum::Stand);
 
@@ -52,8 +54,12 @@ void Player::Render(const Camera2D& camera) const {
     const auto t = camera.createTransformer();
     Circle(position_, 10).draw(Palette::Red);
 
-    Print << U"State: {}\n"_fmt(std::to_underlying<StateEnum>(state_));
-    Print << U"Y: {}\n"_fmt(position_.y);
+    //Print << U"State: {}\n"_fmt(std::to_underlying<StateEnum>(state_));
+    //Print << U"Y: {}\n"_fmt(position_.y);
+
+    auto tex = ref::MGraphic.GetTextureRegion(graphic::Handle::Player, frame_index_);
+    if (is_flipped_) tex = tex.mirrored();
+    tex.drawAt(position_);
 
   }
   RenderHitbox(camera);
@@ -64,6 +70,7 @@ void Player::Release() {
 
 bool Player::MainUpdate() {
   attackbox_.clear();
+  frame_index_ = 0;
 
   while (const auto new_state = state_map_.at(state_)->Transition(*this)) {
     SetState(new_state.value());

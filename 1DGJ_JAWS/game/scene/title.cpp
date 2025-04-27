@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "title.h"
 
-//#include "game/object/ui/ui_master.h"
 #include "game/reference.h"
+#include "game/object/terrain/background.h"
 
 namespace scene {
 Title::Title(const InitData& init) : IScene { init } {
@@ -13,6 +13,8 @@ Title::Title(const InitData& init) : IScene { init } {
   m_object_.Add(std::make_unique<game::UiButtonStart>(Rect(Arg::center(0, 100), 700, 80))); // Start
   //m_object_.Add(std::make_unique<game::UiButtonConfig>(Rect(Arg::center(0, 100), 300, 80))); // Config
   //m_object_.Add(std::make_unique<game::UiButtonEnd>(Rect(Arg::center(0, 200), 300, 80))); // End
+
+  m_object_.Add(std::make_unique<game::Background>(graphic::Handle::Background2));
 
   // タイトル曲
   ref::MAudio.GetAudio(audio::Handle::Title).play();

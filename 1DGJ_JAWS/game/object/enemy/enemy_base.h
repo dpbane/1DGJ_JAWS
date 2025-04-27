@@ -38,6 +38,7 @@ public:
   Optional<Rect> GetTerrainbox() const;
   int GetAtkPower() const { return atk_power_; }
   Vec2 GetPosition() const { return position_; }
+  int GetHp() const { return hp_; }
 
 protected:
   Vec2 position_ {};

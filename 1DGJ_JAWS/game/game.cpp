@@ -23,6 +23,7 @@ void Game::Setup() {
   //ref::MGraphic.Register(graphic::Handle::Sample, U"resource/image/sample.png");
   //ref::MGraphic.RegisterChip(graphic::Handle::Sample, 16, 16, 6);
 
+  ref::MGraphic.Register(graphic::Handle::Background2, U"resource/image/bk_umeda.png");
   ref::MGraphic.Register(graphic::Handle::Background3, U"resource/image/bk_bampaku.png");
 
   ref::MGraphic.Register(graphic::Handle::MapChip3, U"resource/image/mapchip_stage3.png");
@@ -35,6 +36,16 @@ void Game::Setup() {
   ref::MGraphic.RegisterChip(graphic::Handle::MapChip1, 64, 64, 3);
 
   ref::MGraphic.Register(graphic::Handle::Rat, U"resource/image/rat.png");
+
+  ref::MGraphic.Register(graphic::Handle::Player, U"resource/image/player.png");
+  ref::MGraphic.RegisterChip(graphic::Handle::Player, 128, 128, 4);
+
+  ref::MGraphic.Register(graphic::Handle::Ninja, U"resource/image/ninja.png");
+  ref::MGraphic.RegisterChip(graphic::Handle::Ninja, 128, 128, 3);
+
+
+
+
 
   ref::MAudio.Register(audio::Handle::Sample, U"resource/audio/maou_se_system46.ogg");
 

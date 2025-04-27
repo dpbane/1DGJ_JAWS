@@ -4,7 +4,7 @@
 
 namespace game {
 
-UiMaster::UiMaster(Player* player) : player_(player) {
+UiMaster::UiMaster(Player* player, EnemyBase* boss) : player_(player), boss_(boss) {
 }
 
 UiMaster::~UiMaster() {
@@ -20,6 +20,9 @@ bool UiMaster::Update() {
 #pragma warning(suppress : 4100)
 void UiMaster::Render(const Camera2D& camera) const {
 
+
+
+  /*
   constexpr int kMainBoxHeight = 120;
   const auto main_box = Rect(0, Scene::Height() - kMainBoxHeight, Scene::Width(), kMainBoxHeight);
   main_box.draw(ColorF(0.2, 0.2, 0.2)).drawFrame(2.0, ColorF(0.8, 0.8, 0.8));
@@ -33,6 +36,7 @@ void UiMaster::Render(const Camera2D& camera) const {
       hp_box.draw(ColorF(0.2, 0.2, 0.2)).drawFrame(2.0, ColorF(0.8, 0.8, 0.8));
     }
   }
+  */
 }
 
 void UiMaster::Release() {

@@ -7,7 +7,7 @@ namespace game {
 
 class UiMaster : public base::GameObject {
 public:
-  UiMaster(Player* player);
+  UiMaster(Player* player, EnemyBase* boss);
   ~UiMaster() override;
 
   void Setup() override;
@@ -21,6 +21,8 @@ public:
 
 private:
   Player* player_;
+  EnemyBase* boss_;;
+
 };
 
 

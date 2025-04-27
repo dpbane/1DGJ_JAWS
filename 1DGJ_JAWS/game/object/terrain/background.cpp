@@ -7,7 +7,7 @@ namespace game {
 Background::Background(graphic::Handle handle) : handle_(handle) {
 }
 void Background::Render(const Camera2D& camera) const {
-  const auto texture = ref::MGraphic.GetTexture(graphic::Handle::Background3);
+  const auto texture = ref::MGraphic.GetTexture(handle_);
   texture.draw(Point(0, 0));
 }
 

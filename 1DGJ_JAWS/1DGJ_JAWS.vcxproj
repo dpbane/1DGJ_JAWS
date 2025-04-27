@@ -130,6 +130,7 @@
     <ClCompile Include="game\object\enemy\dummy.cpp" />
     <ClCompile Include="game\object\enemy\enemy_base.cpp" />
     <ClCompile Include="game\object\enemy\enemy_same.cpp" />
+    <ClCompile Include="game\object\enemy\ninja.cpp" />
     <ClCompile Include="game\object\enemy\rat.cpp" />
     <ClCompile Include="game\object\player\player.cpp" />
     <ClCompile Include="game\object\player\state\air.cpp" />
@@ -339,7 +340,6 @@
     <None Include="App\example\toml\config.toml" />
     <None Include="App\example\toml\test.toml" />
     <None Include="App\example\zip\zip_test.zip" />
-    <None Include="C:\Users\chalp\Downloads\BGM_title.ogg" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="App\example\shot.mp3" />
@@ -381,6 +381,7 @@
     <ClInclude Include="game\object\enemy\dummy.h" />
     <ClInclude Include="game\object\enemy\enemy_base.h" />
     <ClInclude Include="game\object\enemy\enemy_same.h" />
+    <ClInclude Include="game\object\enemy\ninja.h" />
     <ClInclude Include="game\object\enemy\rat.h" />
     <ClInclude Include="game\object\object_tag.h" />
     <ClInclude Include="game\object\player\player.h" />

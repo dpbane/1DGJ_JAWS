@@ -23,6 +23,7 @@ private:
 
   game::Terrain* terrain_;
   game::Player* player_;
+  game::EnemyBase* boss_;
 };
 
 }

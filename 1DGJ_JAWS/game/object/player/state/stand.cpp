@@ -45,6 +45,7 @@ Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
 template<>
 void Player::StateImpl<S>::Update(Player& player) {
   player.velocity_ = { 0, 0 };
+  player.frame_index_ = 1;
 
   if (ref::MInput.Down(input::Action::Jump)) player.DoJump();
 }

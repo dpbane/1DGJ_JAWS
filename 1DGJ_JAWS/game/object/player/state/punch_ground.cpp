@@ -21,15 +21,18 @@ void Player::StateImpl<S>::Update(Player& player) {
   player.attackbox_.clear();
   if (player.motion_time_ < kPunchStartup) {
     // 発生前
+    player.frame_index_ = 1;
 
   }
   else if (player.motion_time_ < kPunchActive) {
     // 発生
+    player.frame_index_ = 4;
     player.atk_power_ = kPunchDamage;
     player.attackbox_.push_back(kPunchBoxAct);
   }
   else {
     // 硬直
+    player.frame_index_ = 4;
     player.atk_power_ = kPunchDamage;
     player.attackbox_.push_back(kPunchBoxRecv);
   }

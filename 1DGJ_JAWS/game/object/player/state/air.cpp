@@ -32,6 +32,8 @@ Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
 
 template<>
 void Player::StateImpl<S>::Update(Player& player) {
+  player.frame_index_ = 5;
+
   if (ref::MInput.Pressed(input::Action::Left) && not ref::MInput.Pressed(input::Action::Right)) {
     player.is_flipped_ = false;
   }

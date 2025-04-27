@@ -32,12 +32,10 @@ bool Rat::MainUpdate() {
   if (compFirstJump) {
     velocity_ = Vec2(-100, 0);
   }
-  EnemyPreUpdate();
   //TODO:640でいい？
   if (position_.x < -640) {
     return false;
   }
-  EnemyPostUpdate();
   if (on_ground_) {
     compFirstJump = true;
   }
