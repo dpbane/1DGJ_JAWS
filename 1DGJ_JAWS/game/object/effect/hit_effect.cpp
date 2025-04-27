@@ -32,6 +32,8 @@ bool HitEffect::Update()
 }
 
 void HitEffect::Render(const Camera2D& camera) const {
+  const auto t = camera.createTransformer();
+
   for (auto& star : m_stars)
   {
     const Vec2 pos = (star.start + star.velocity * effect_frame_ * 5);
