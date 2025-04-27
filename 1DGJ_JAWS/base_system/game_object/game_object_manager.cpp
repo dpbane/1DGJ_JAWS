@@ -40,7 +40,7 @@ void GameObjectManager::Update() {
 
 }
 
-void GameObjectManager::Render() const {
+void GameObjectManager::Render(const Camera2D& camera) const {
   // ループごとにインデックスソート。パフォーマンスが気になるなら動的追加・削除部分でやる
 
   // まずインデックスの作成
@@ -58,7 +58,7 @@ void GameObjectManager::Render() const {
 
   // 実行
   for (const auto& index : index_list) {
-    game_object_[index]->Render();
+    game_object_[index]->Render(camera);
   }
 }
 

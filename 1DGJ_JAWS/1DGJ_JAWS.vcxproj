@@ -123,6 +123,7 @@
     <ClCompile Include="base_system\window_manager\window_manager.cpp" />
     <ClCompile Include="game\game.cpp" />
     <ClCompile Include="game\input\input_binder.cpp" />
+    <ClCompile Include="game\object\player\player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -348,11 +349,13 @@
     <ClInclude Include="game\graphic\graphic_enum.h" />
     <ClInclude Include="game\input\input_binder.h" />
     <ClInclude Include="game\input\input_enum.h" />
-    <ClInclude Include="game\object\test_object_1.h" />
-    <ClInclude Include="game\object\test_object_2.h" />
+    <ClInclude Include="game\object\enemy\enemy_base.h" />
+    <ClInclude Include="game\object\player\player.h" />
+    <ClInclude Include="game\object\terrain\mapchip.h" />
+    <ClInclude Include="game\object\terrain\terrain.h" />
     <ClInclude Include="game\reference.h" />
+    <ClInclude Include="game\scene\level1.h" />
     <ClInclude Include="game\scene\scene_enum.h" />
-    <ClInclude Include="game\scene\test.h" />
     <ClInclude Include="game\window\window_manager.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

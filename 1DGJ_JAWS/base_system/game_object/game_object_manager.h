@@ -10,7 +10,7 @@ public:
   GameObjectManager();
 
   void Update();
-  void Render() const;
+  void Render(const Camera2D& camera) const;
 
   ObjectHandle Add(std::unique_ptr<GameObject> object);  // シーン初期化時などに使う
   ObjectHandle AddDynamic(std::unique_ptr<GameObject> object);  // Updateループ内で動的にオブジェクトを増やすときに使う。作成したオブジェクトのSetup, Updateまで実行される。

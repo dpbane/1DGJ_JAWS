@@ -17,7 +17,7 @@ public:
 
   virtual void Setup() = 0;
   virtual bool Update() = 0;
-  virtual void Render() const = 0;
+  virtual void Render(const Camera2D& camera) const = 0;
   virtual void Release() = 0;
 
   virtual Optional<int> UpdateOrder() const = 0;  // Updateを実行する順序に影響。小さいほど先に実行
