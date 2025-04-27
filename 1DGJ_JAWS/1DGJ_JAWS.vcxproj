@@ -125,6 +125,7 @@
     <ClCompile Include="game\input\input_binder.cpp" />
     <ClCompile Include="game\object\effect\hit_effect.cpp" />
     <ClCompile Include="game\object\effect\itekomasu_cut_in.cpp" />
+    <ClCompile Include="game\object\effect\title_image.cpp" />
     <ClCompile Include="game\object\enemy\enemy_base.cpp" />
     <ClCompile Include="game\object\player\player.cpp" />
     <ClCompile Include="game\object\player\state\air.cpp" />
@@ -138,8 +139,10 @@
     <ClCompile Include="game\object\player\state\step_front.cpp" />
     <ClCompile Include="game\object\player\state\walk.cpp" />
     <ClCompile Include="game\object\terrain\terrain.cpp" />
+    <ClCompile Include="game\object\ui\ui_button_start.cpp" />
     <ClCompile Include="game\object\ui\ui_master.cpp" />
     <ClCompile Include="game\scene\level1.cpp" />
+    <ClCompile Include="game\scene\title.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -331,6 +334,7 @@
     <None Include="App\example\toml\config.toml" />
     <None Include="App\example\toml\test.toml" />
     <None Include="App\example\zip\zip_test.zip" />
+    <None Include="C:\Users\chalp\Downloads\BGM_title.ogg" />
   </ItemGroup>
   <ItemGroup>
     <Media Include="App\example\shot.mp3" />
@@ -367,14 +371,17 @@
     <ClInclude Include="game\input\input_enum.h" />
     <ClInclude Include="game\object\effect\hit_effect.h" />
     <ClInclude Include="game\object\effect\itekomasu_cut_in.h" />
+    <ClInclude Include="game\object\effect\title_image.h" />
     <ClInclude Include="game\object\enemy\enemy_base.h" />
     <ClInclude Include="game\object\player\player.h" />
     <ClInclude Include="game\object\terrain\mapchip.h" />
     <ClInclude Include="game\object\terrain\terrain.h" />
+    <ClInclude Include="game\object\ui\ui_button_start.h" />
     <ClInclude Include="game\object\ui\ui_master.h" />
     <ClInclude Include="game\reference.h" />
     <ClInclude Include="game\scene\level1.h" />
     <ClInclude Include="game\scene\scene_enum.h" />
+    <ClInclude Include="game\scene\title.h" />
     <ClInclude Include="game\window\window_manager.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
