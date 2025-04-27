@@ -22,9 +22,9 @@ Title::Title(const InitData& init) : IScene { init } {
 void Title::update() {
 
   m_object_.Update();
-  if (MouseL.down()) {
+  if (KeySpace.pressed()) {
     // Stage1 開始
-    // とりまマウスクリック
+    // とりまSpace
     changeScene(scene::SceneEnum::Level1);
   }
 }
