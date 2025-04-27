@@ -3,6 +3,7 @@
 
 #include "reference.h"
 
+#include "scene/title.h"
 #include "scene/level1.h"
 
 namespace game {
@@ -27,8 +28,9 @@ void Game::Setup() {
 
   Addon::Register(U"FrameRateLimit", std::make_unique<base::FrameRateLimitAddon>(target_fps));
 
+  scene_manager_.add<scene::Title>(scene::SceneEnum::Title);
   scene_manager_.add<scene::Level1>(scene::SceneEnum::Level1);
-  scene_manager_.init(scene::SceneEnum::Level1, 0.02s);
+  scene_manager_.init(scene::SceneEnum::Title, 0.02s);
 }
 
 bool Game::Process() {
