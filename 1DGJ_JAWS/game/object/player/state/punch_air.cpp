@@ -2,6 +2,7 @@
 #include "game/object/player/player.h"
 
 #include "game/reference.h"
+#include "punch_param.h"
 
 namespace game {
 
@@ -9,11 +10,28 @@ constexpr Player::StateEnum S = Player::StateEnum::PunchAir;
 
 template<>
 Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
+  if (player.motion_time_ > kPunchRecovery) return StateEnum::Air;
+  if (player.on_ground_) return StateEnum::PunchGround;
   return none;
 }
 
 template<>
 void Player::StateImpl<S>::Update(Player& player) {
+  player.motion_time_ += Scene::DeltaTime();
+  if (player.motion_time_ < kPunchStartup) {
+    // 発生前
+
+  }
+  else if (player.motion_time_ < kPunchActive) {
+    // 発生
+    player.atk_power_ = kPunchDamage;
+    player.attackbox_.push_back(kPunchBoxAct);
+  }
+  else {
+    // 硬直
+    player.atk_power_ = kPunchDamage;
+    player.attackbox_.push_back(kPunchBoxRecv);
+  }
 }
 
 }

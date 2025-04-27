@@ -12,13 +12,13 @@ public:
     Stand,
     Walk,
     Air,
-    Guard,
-    StepFront,
-    StepBack,
+    Step,
     PunchGround,
     PunchAir,
     KickGround,
-    KickAir
+    KickAir,
+    Knockback,
+    Death
   };
 
   class State abstract {
@@ -60,16 +60,26 @@ private:
   void SetState(StateEnum s);
   void GravityProcess();
   void EnemyInteractProcess();
+  void InvinsibleProcess();
   bool HitAgainst(EnemyBase* enemy);
   bool TakeAgainst(EnemyBase* enemy);
 
   void DoJump();
+  void DoKnockback(EnemyBase* enemy);
+  void DoPunch();
+  void DoKick();
+  void DoStep();
 
 private:
   HashTable<StateEnum, std::unique_ptr<State>> state_map_;
   StateEnum state_;
   int max_hp_ { 8 };
   double invinsible_time_ { 0.0 };  // 無敵時間。0より大きいと有効
+  double knockback_land_time_ { 0.0 };  // 吹き飛び後、着地したらこの数値を0より大きくする。0になったら行動可能に
+
+  double motion_time_ { 0.0 };  // パンチ、キック、ステップの各モーション経過時間
+
+  int frame_index_ { 0 };  // 描画する画像ID
 
   HashSet<EnemyBase*> attack_enemy_set_;
 

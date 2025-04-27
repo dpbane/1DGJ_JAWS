@@ -7,7 +7,7 @@ namespace scene {
 
 Title::Title(const InitData& init) : IScene { init } {
   // タイトルロゴ
-  m_object_.Add(std::make_unique<game::TitleImage>(Vec2 {640,200})); // あとで画像差し替えしたい
+  m_object_.Add(std::make_unique<game::TitleImage>(Vec2 { 640,200 })); // あとで画像差し替えしたい
 
   // button
   m_object_.Add(std::make_unique<game::UiButtonStart>(Rect(Arg::center(0, 100), 700, 80))); // Start
@@ -25,7 +25,7 @@ void Title::update() {
   if (KeySpace.pressed()) {
     // Stage1 開始
     // とりまSpace
-    changeScene(scene::SceneEnum::Level1);
+    changeScene(scene::SceneEnum::Level1, 0s);
   }
 }
 

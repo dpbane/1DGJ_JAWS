@@ -6,9 +6,12 @@
 
 namespace game {
 
-constexpr double kGravity = 1200.0;
+constexpr double kGravity = 2200.0;
 constexpr double kMaxVelcity = 800.0;
-constexpr double kJumpVelocity = -500.0;
+constexpr double kJumpVelocity = -900.0;
+
+constexpr double kKnockbackVelocityX = 180.0;
+constexpr double kKnockbackVelocityY = -300.0;
 
 Player::Player(Terrain* terrain, const Vec2& position) :
   EnemyBase(terrain) {
@@ -21,7 +24,7 @@ Player::Player(Terrain* terrain, const Vec2& position) :
   hitbox_.emplace_back(-30, -62, 60, 124);
 
   // 仮置き
-  attackbox_.emplace_back(-64, -32, 32, 32);
+  //attackbox_.emplace_back(-64, -32, 32, 32);
 
   terrainbox_ = Rect(-32, -64, 64, 128);
 
@@ -31,13 +34,13 @@ Player::Player(Terrain* terrain, const Vec2& position) :
   REGISTER(StateEnum::Stand);
   REGISTER(StateEnum::Walk);
   REGISTER(StateEnum::Air);
-  REGISTER(StateEnum::Guard);
-  REGISTER(StateEnum::StepFront);
-  REGISTER(StateEnum::StepBack);
+  REGISTER(StateEnum::Step);
   REGISTER(StateEnum::PunchGround);
   REGISTER(StateEnum::PunchAir);
   REGISTER(StateEnum::KickGround);
   REGISTER(StateEnum::KickAir);
+  REGISTER(StateEnum::Knockback);
+  REGISTER(StateEnum::Death);
 #undef REGISTER
 }
 
@@ -60,11 +63,14 @@ void Player::Release() {
 }
 
 bool Player::MainUpdate() {
+  attackbox_.clear();
+
   while (const auto new_state = state_map_.at(state_)->Transition(*this)) {
     SetState(new_state.value());
   }
   state_map_.at(state_)->Update(*this);
 
+  InvinsibleProcess();
   GravityProcess();
   EnemyInteractProcess();
 
@@ -98,10 +104,16 @@ void Player::EnemyInteractProcess() {
     // 向こうの攻撃判定
     if (invinsible_time_ == 0.0 && TakeAgainst(enemy)) {
       TakeDamage(enemy->GetAtkPower());
-      // TODO 被弾処理
+      DoKnockback(enemy);
     }
 
   }
+}
+
+void Player::InvinsibleProcess() {
+  if (invinsible_time_ <= 0) return;
+  invinsible_time_ -= Scene::DeltaTime();
+  if (invinsible_time_ < 0) invinsible_time_ = 0;
 }
 
 bool Player::HitAgainst(EnemyBase* enemy) {
@@ -129,8 +141,31 @@ void Player::DoJump() {
 
 }
 
+void Player::DoKnockback(EnemyBase* enemy) {
+  if (position_.x > enemy->GetPosition().x) {
+    velocity_.x = kKnockbackVelocityX;
+  }
+  else {
+    velocity_.x = -kKnockbackVelocityX;
+  }
+  velocity_.y = kKnockbackVelocityY;
+  knockback_land_time_ = -1.0;
+  SetState(StateEnum::Knockback);
+}
 
+void Player::DoPunch() {
+  motion_time_ = 0;
+  SetState(on_ground_ ? StateEnum::PunchGround : StateEnum::PunchAir);
+}
 
+void Player::DoKick() {
+  motion_time_ = 0;
+  SetState(on_ground_ ? StateEnum::KickGround : StateEnum::KickAir);
+}
 
+void Player::DoStep() {
+  motion_time_ = 0;
+  SetState(StateEnum::Step);
+}
 
 }

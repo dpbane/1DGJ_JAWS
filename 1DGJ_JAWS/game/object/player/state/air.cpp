@@ -15,11 +15,30 @@ Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
     return Player::StateEnum::Stand;
   }
 
+  // Punch
+  if (ref::MInput.Down(input::Action::Punch)) {
+    player.DoPunch();
+    return Player::StateEnum::PunchAir;
+  }
+
+  // Kick
+  if (ref::MInput.Down(input::Action::Kick)) {
+    player.DoKick();
+    return Player::StateEnum::KickAir;
+  }
+
   return none;
 }
 
 template<>
 void Player::StateImpl<S>::Update(Player& player) {
+  if (ref::MInput.Pressed(input::Action::Left) && not ref::MInput.Pressed(input::Action::Right)) {
+    player.is_flipped_ = false;
+  }
+  if (ref::MInput.Pressed(input::Action::Right) && not ref::MInput.Pressed(input::Action::Left)) {
+    player.is_flipped_ = true;
+  }
+
 
 }
 

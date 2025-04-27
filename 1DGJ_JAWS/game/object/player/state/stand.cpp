@@ -15,7 +15,23 @@ Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
     return Player::StateEnum::Air;
   }
 
+  // Punch
+  if (ref::MInput.Down(input::Action::Punch)) {
+    player.DoPunch();
+    return Player::StateEnum::PunchGround;
+  }
 
+  // Kick
+  if (ref::MInput.Down(input::Action::Kick)) {
+    player.DoKick();
+    return Player::StateEnum::KickGround;
+  }
+
+  // Step
+  if (ref::MInput.Down(input::Action::Step)) {
+    player.DoStep();
+    return Player::StateEnum::Step;
+  }
 
   // Walk
   if ((ref::MInput.Pressed(input::Action::Left) && not ref::MInput.Pressed(input::Action::Right)) ||
