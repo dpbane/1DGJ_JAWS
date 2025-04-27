@@ -125,8 +125,10 @@
     <ClCompile Include="game\input\input_binder.cpp" />
     <ClCompile Include="game\object\effect\hit_effect.cpp" />
     <ClCompile Include="game\object\effect\itekomasu_cut_in.cpp" />
+    <ClCompile Include="game\object\enemy\bullet.cpp" />
     <ClCompile Include="game\object\enemy\dummy.cpp" />
     <ClCompile Include="game\object\enemy\enemy_base.cpp" />
+    <ClCompile Include="game\object\enemy\rat.cpp" />
     <ClCompile Include="game\object\player\player.cpp" />
     <ClCompile Include="game\object\player\state\air.cpp" />
     <ClCompile Include="game\object\player\state\guard.cpp" />
@@ -368,8 +370,10 @@
     <ClInclude Include="game\input\input_enum.h" />
     <ClInclude Include="game\object\effect\hit_effect.h" />
     <ClInclude Include="game\object\effect\itekomasu_cut_in.h" />
+    <ClInclude Include="game\object\enemy\bullet.h" />
     <ClInclude Include="game\object\enemy\dummy.h" />
     <ClInclude Include="game\object\enemy\enemy_base.h" />
+    <ClInclude Include="game\object\enemy\rat.h" />
     <ClInclude Include="game\object\object_tag.h" />
     <ClInclude Include="game\object\player\player.h" />
     <ClInclude Include="game\object\terrain\terrain.h" />
