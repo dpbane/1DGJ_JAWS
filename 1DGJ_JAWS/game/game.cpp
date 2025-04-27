@@ -19,10 +19,11 @@ void Game::Setup() {
   ref::MWindow.Setup(window_width, window_height, window_title);
   ref::MInput.Bind(input::InputBinder::Make());
 
-  ref::MGraphic.Register(graphic::Handle::Sample, U"resource/sample.png");
+  ref::MGraphic.Register(graphic::Handle::Sample, U"resource/image/sample.png");
+  ref::MGraphic.Register(graphic::Handle::Itekoma, U"resource/image/itekoma.png");
   ref::MGraphic.RegisterChip(graphic::Handle::Sample, 16, 16, 6);
 
-  ref::MAudio.Register(audio::Handle::Sample, U"resource/maou_se_system46.ogg");
+  ref::MAudio.Register(audio::Handle::Sample, U"resource/audio/maou_se_system46.ogg");
 
   Addon::Register(U"FrameRateLimit", std::make_unique<base::FrameRateLimitAddon>(target_fps));
 
