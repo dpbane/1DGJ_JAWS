@@ -6,6 +6,7 @@
 #include "game/object/enemy/dummy.h"
 #include "game/object/terrain/background.h"
 #include "game/object/enemy/ninja.h"
+#include "game/object/effect/fade.h"
 
 namespace scene {
 
@@ -24,7 +25,9 @@ Level1::Level1(const InitData& init) : IScene { init } {
   m_object_.Add(std::make_unique<game::Background>(graphic::Handle::Background3));
   //m_object_.Add(std::make_unique<game::DummyEnemy>(terrain_, Vec2(690, 400)));
 
-
+  fade_handle_ = m_object_.Add(std::make_unique<game::Fade>());
+  game::Fade* fade = m_object_.GetAs<game::Fade>(fade_handle_).value();
+  fade->SetFadeWhite(0.5);
 }
 
 void Level1::update() {

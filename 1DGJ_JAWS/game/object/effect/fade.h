@@ -6,7 +6,7 @@ namespace game {
 
 class Fade : public base::GameObject {
 public:
-  Fade(const Rect& rect);
+  Fade();
   ~Fade() override = default;
 
   bool Update() override;
@@ -18,9 +18,20 @@ public:
   Optional<int> RenderOrder() const override { return 20000; } // 要調整
   Optional<int> Tag() const override { return 100; }
 
+  void SetFadeBlack(double time);
+  void SetFadeWhite(double time);
+  void SetWhite();
+
+  bool IsBlack() const { return alpha_ == 1.0; }
+  bool IsWhite() const { return alpha_ == 0.0; }
+
 private:
-  Rect rect_;
-  double alpha_;
+  double alpha_ { 0 };
+
+  double fade_time_inv_ { 1 };
+  bool to_black_ { false };
+
+
 };
 
 }

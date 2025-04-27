@@ -55,7 +55,7 @@ void Game::Setup() {
 
   scene_manager_.add<scene::Title>(scene::SceneEnum::Title);
   scene_manager_.add<scene::Level1>(scene::SceneEnum::Level1);
-  scene_manager_.init(scene::SceneEnum::Title, 0.02s);
+  scene_manager_.init(scene::SceneEnum::Title, 0.0s);
 }
 
 bool Game::Process() {

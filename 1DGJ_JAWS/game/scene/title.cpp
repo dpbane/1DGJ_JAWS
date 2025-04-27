@@ -3,6 +3,7 @@
 
 #include "game/reference.h"
 #include "game/object/terrain/background.h"
+#include "game/object/effect/fade.h"
 
 namespace scene {
 Title::Title(const InitData& init) : IScene { init } {
@@ -16,6 +17,10 @@ Title::Title(const InitData& init) : IScene { init } {
 
   m_object_.Add(std::make_unique<game::Background>(graphic::Handle::Background2));
 
+  fade_handle_ = m_object_.Add(std::make_unique<game::Fade>());
+  game::Fade* fade = m_object_.GetAs<game::Fade>(fade_handle_).value();
+  fade->SetWhite();
+
   // タイトル曲
   ref::MAudio.GetAudio(audio::Handle::Title).play();
   ref::MAudio.GetAudio(audio::Handle::Title).setVolume(0.5);
@@ -23,13 +28,20 @@ Title::Title(const InitData& init) : IScene { init } {
 
 void Title::update() {
 
+  game::Fade* fade = m_object_.GetAs<game::Fade>(fade_handle_).value();
+
   m_object_.Update();
   if (KeySpace.pressed()) {
     // Stage1 開始
     // とりまSpace
     // 
     ref::MAudio.GetAudio(audio::Handle::Title).fadeVolume(0.0, 1s);
-    changeScene(scene::SceneEnum::Level1);
+
+    fade->SetFadeBlack(0.5);
+  }
+
+  if (fade->IsBlack()) {
+    changeScene(scene::SceneEnum::Level1, 0);
   }
 }
 

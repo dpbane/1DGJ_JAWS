@@ -3,29 +3,42 @@
 
 namespace game {
 
-Fade::Fade(const Rect& rect) {
-  rect_ = rect;
-  alpha_ = 0.0;
+Fade::Fade() {
 }
 
 bool Fade::Update() {
   // 透明度を変化させる
   alpha_ += Scene::DeltaTime();
 
-  if (alpha_ < 1) {
-    return true;
+  if (to_black_) {
+    alpha_ += Scene::DeltaTime() * fade_time_inv_;
   }
   else {
-    rect_.draw(ColorF { 0, 0, 0, 1 });
-    return true;
+    alpha_ -= Scene::DeltaTime() * fade_time_inv_;
   }
+  alpha_ = std::clamp(alpha_, 0.0, 1.0);
+  return true;
 }
 
 void Fade::Render(const Camera2D& camera) const {
-  {
-    //const auto t = camera.createTransformer();
-    rect_.draw(ColorF { 0, 0, 0, alpha_ });
-  }
+  Rect(0, 0, Scene::Width(), Scene::Height()).draw(ColorF { 0, 0, 0, alpha_ });
+}
+
+void Fade::SetFadeBlack(double time) {
+  to_black_ = true;
+  fade_time_inv_ = 1.0 / time;
+  alpha_ = 0;
+}
+
+void Fade::SetFadeWhite(double time) {
+  to_black_ = false;
+  fade_time_inv_ = 1.0 / time;
+  alpha_ = 1;
+}
+
+void Fade::SetWhite() {
+  to_black_ = false;
+  alpha_ = 0;
 }
 
 }
