@@ -6,8 +6,9 @@
 
 namespace game {
 
-constexpr double kGravity = 300.0;
-constexpr double kMaxVelcity = 500.0;
+constexpr double kGravity = 1200.0;
+constexpr double kMaxVelcity = 800.0;
+constexpr double kJumpVelocity = -500.0;
 
 Player::Player(Terrain* terrain, const Vec2& position) :
   EnemyBase(terrain) {
@@ -16,6 +17,8 @@ Player::Player(Terrain* terrain, const Vec2& position) :
   atk_power_ = 3;
   hp_ = max_hp_;
   previous_hp_ = max_hp_;
+
+  hitbox_.emplace_back(-30, -62, 60, 124);
   terrainbox_ = Rect(-32, -64, 64, 128);
 
   SetState(StateEnum::Stand);
@@ -45,6 +48,8 @@ bool Player::Update() {
   }
   state_map_.at(state_)->Update(*this);
 
+  GravityProcess();
+
   EnemyPostUpdate();
   return true;
 }
@@ -71,6 +76,11 @@ void Player::SetState(StateEnum s) {
 void Player::GravityProcess() {
   velocity_.y += kGravity * Scene::DeltaTime();
   velocity_.y = std::min(velocity_.y, kMaxVelcity);
+}
+
+void Player::DoJump() {
+  velocity_.y = kJumpVelocity;
+  SetState(StateEnum::Air);
 }
 
 

@@ -22,7 +22,7 @@ bool EnemyBase::EnemyPostUpdate() {
     position_.x += velocity_.x * Scene::DeltaTime();
     const Point pos = Point((int)position_.x, (int)position_.y);
     const auto& box_raw = GetTerrainbox().value();
-    const auto& box = terrainbox_.value().movedBy(pos);
+    const auto& box = box_raw.movedBy(pos);
     if (terrain_->Conflict(box)) {
       if (velocity_.x > 0) {
         position_.x = terrain_->NearestX(box.rightX()) - box_raw.rightX();
@@ -38,10 +38,10 @@ bool EnemyBase::EnemyPostUpdate() {
   {
     position_.y += velocity_.y * Scene::DeltaTime();
     const Point pos = Point((int)position_.x, (int)position_.y);
-    const auto& box_raw = terrainbox_.value();
-    const auto& box = GetTerrainbox().value().movedBy(pos);
+    const auto& box_raw = GetTerrainbox().value();
+    const auto& box = box_raw.movedBy(pos);
     if (terrain_->Conflict(box)) {
-      if (velocity_.y > 0) {
+      if (velocity_.y >= 0) {
         position_.y = terrain_->NearestY(box.bottomY()) - box_raw.bottomY();
       }
       if (velocity_.y < 0) {
@@ -52,7 +52,10 @@ bool EnemyBase::EnemyPostUpdate() {
 
     on_ground_ = false;
     const auto& box_ground = box.movedBy(Point(0, 1));
-    if (terrain_->Conflict(box_ground)) on_ground_ = true;
+    if (terrain_->Conflict(box_ground)) {
+      position_.y = terrain_->NearestY(box.bottomY()) - box_raw.bottomY();
+      on_ground_ = true;
+    }
   }
 
   return true;
@@ -63,17 +66,17 @@ void EnemyBase::RenderHitbox(const Camera2D& camera) const {
   const Point pos = Point((int)position_.x, (int)position_.y);
 
   for (const auto& box : GetHitbox()) {
-    box.movedBy(pos).draw(ColorF(0.2, 0.2, 0.9, 0.6))
+    box.movedBy(pos).draw(ColorF(0.2, 0.2, 0.9, 0.3))
       .drawFrame(1.0, ColorF(0.3, 0.3, 1.0));
   }
 
   for (const auto& box : GetAttackbox()) {
-    box.movedBy(pos).draw(ColorF(0.9, 0.2, 0.2, 0.6))
+    box.movedBy(pos).draw(ColorF(0.9, 0.2, 0.2, 0.3))
       .drawFrame(1.0, ColorF(1.0, 0.3, 0.3));
   }
 
   if (const auto box = GetTerrainbox()) {
-    box->movedBy(pos).draw(ColorF(0.2, 0.9, 0.2, 0.6))
+    box->movedBy(pos).draw(ColorF(0.2, 0.9, 0.2, 0.3))
       .drawFrame(1.0, ColorF(0.3, 1.0, 0.3));
   }
 }

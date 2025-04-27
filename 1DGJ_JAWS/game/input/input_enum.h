@@ -8,7 +8,11 @@ enum class Action : uint8_t {
   Up,
   Down,
   Confirm,
-  Cancel
+  Cancel,
+  Jump,
+  Skill1,
+  Skill2,
+  Skill3
 };
 
 

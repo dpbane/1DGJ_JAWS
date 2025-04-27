@@ -11,6 +11,10 @@ HashTable<Action, InputGroup> InputBinder::Make() {
   ret.insert({ Action::Down, KeyDown | KeyS });
   ret.insert({ Action::Confirm, KeyEnter | KeySpace });
   ret.insert({ Action::Cancel, KeyEscape | KeyBackspace });
+  ret.insert({ Action::Jump, KeySpace });
+  ret.insert({ Action::Skill1, KeyZ });
+  ret.insert({ Action::Skill2, KeyX });
+  ret.insert({ Action::Skill3, KeyC });
   return ret;
 }
 

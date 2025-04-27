@@ -31,12 +31,14 @@ template<>
 void Player::StateImpl<S>::Update(Player& player) {
   if (ref::MInput.Pressed(input::Action::Left)) {
     player.velocity_.x = -kWalkSpeed;
+    player.is_flipped_ = false;
   }
   if (ref::MInput.Pressed(input::Action::Right)) {
     player.velocity_.x = kWalkSpeed;
+    player.is_flipped_ = true;
   }
 
-
+  if (ref::MInput.Down(input::Action::Jump)) player.DoJump();
 }
 
 }
