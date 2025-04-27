@@ -13,8 +13,9 @@ public:
 
 
   void Setup() override {}
-  void Update() override {
+  bool Update() override {
     position_ += velocity_ * Scene::DeltaTime();
+    return true;
   }
   void Render() const override {
     Circle(position_, 10).draw(Palette::Blue);

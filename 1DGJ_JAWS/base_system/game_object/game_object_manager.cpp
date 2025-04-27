@@ -16,10 +16,10 @@ void GameObjectManager::Update() {
   // ループごとにインデックスソート。パフォーマンスが気になるなら動的追加・削除部分でやる
 
   // まずインデックスの作成
-  Array<int> index_list;
+  Array<uint32> index_list;
   index_list.reserve(game_object_.size());
   for (int index = 0; const auto & obj : game_object_) {
-    if (obj) index_list.push_back(index);
+    if (obj && obj->UpdateOrder()) index_list.push_back(index);
     index++;
   }
 
@@ -30,7 +30,12 @@ void GameObjectManager::Update() {
 
   // 実行
   for (const auto& index : index_list) {
-    game_object_[index]->Update();
+    if (not game_object_[index]->Update()) {
+      Kill(ObjectHandle {
+        .index = index,
+        .generation = generation_[index]
+});
+    }
   }
 
 }
@@ -42,7 +47,7 @@ void GameObjectManager::Render() const {
   Array<int> index_list;
   index_list.reserve(game_object_.size());
   for (int index = 0; const auto & obj : game_object_) {
-    if (obj) index_list.push_back(index);
+    if (obj && obj->RenderOrder()) index_list.push_back(index);
     index++;
   }
 
