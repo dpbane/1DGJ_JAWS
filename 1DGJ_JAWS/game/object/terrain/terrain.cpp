@@ -7,8 +7,8 @@ namespace game {
 
 constexpr int kChipSize = 64;
 
-Terrain::Terrain(const FilePath& path_csv, graphic::Handle ghandle) :
-  path_csv_(path_csv), ghandle_(ghandle) {
+Terrain::Terrain(const FilePath& path_csv, graphic::Handle ghandle, int y_offset) :
+  path_csv_(path_csv), ghandle_(ghandle), y_offset_(y_offset) {
   CSV csv { path_csv_ };
   if (not csv) return;
 
@@ -37,16 +37,17 @@ void Terrain::Render(const Camera2D& camera) const {
   const auto t = camera.createTransformer();
 
   const Vec2& center = camera.getCenter();
-  const int left_x = (center.x - Scene::Width() / 2) / kChipSize - 1;
-  const int right_x = (center.x + Scene::Width() / 2) / kChipSize + 1;
-  const int top_y = (center.y - Scene::Height() / 2) / kChipSize - 1;
-  const int bottom_y = (center.y + Scene::Height() / 2) / kChipSize + 1;
+  const int left_x = static_cast<int>((center.x - Scene::Width() / 2) / kChipSize - 1);
+  const int right_x = static_cast<int>((center.x + Scene::Width() / 2) / kChipSize + 1);
+  const int top_y = static_cast<int>((center.y - Scene::Height() / 2) / kChipSize - 1);
+  const int bottom_y = static_cast<int>((center.y + Scene::Height() / 2) / kChipSize + 1);
 
   // マップ
   for (int32 y = top_y; y <= bottom_y; ++y) {
     for (int32 x = left_x; x <= right_x; ++x) {
       const Point pos { (x * kChipSize), (y * kChipSize) };
-      ref::MGraphic.GetTextureRegion(ghandle_, GetChip(x, y)).draw(pos);
+      const int chip = GetChip(x, y);
+      if (chip > 0) ref::MGraphic.GetTextureRegion(ghandle_, GetChip(x, y)).draw(pos.movedBy(0, y_offset_));
     }
   }
 

@@ -20,9 +20,16 @@ void Game::Setup() {
   ref::MWindow.Setup(window_width, window_height, window_title);
   ref::MInput.Bind(input::InputBinder::Make());
 
-  ref::MGraphic.Register(graphic::Handle::Sample, U"resource/image/sample.png");
+  //ref::MGraphic.Register(graphic::Handle::Sample, U"resource/image/sample.png");
+  //ref::MGraphic.RegisterChip(graphic::Handle::Sample, 16, 16, 6);
+
+  ref::MGraphic.Register(graphic::Handle::Background3, U"resource/image/bk_bampaku.png");
+
+  ref::MGraphic.Register(graphic::Handle::MapChip3, U"resource/image/mapchip_stage3.png");
+  ref::MGraphic.RegisterChip(graphic::Handle::MapChip3, 64, 64, 5);
+
   ref::MGraphic.Register(graphic::Handle::Itekoma, U"resource/image/itekoma.png");
-  ref::MGraphic.RegisterChip(graphic::Handle::Sample, 16, 16, 6);
+
 
   ref::MGraphic.Register(graphic::Handle::MapChip1, U"resource/image/mapchip1.png");
   ref::MGraphic.RegisterChip(graphic::Handle::MapChip1, 64, 64, 3);

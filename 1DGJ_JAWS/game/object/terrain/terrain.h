@@ -7,7 +7,7 @@ namespace game {
 
 class Terrain : public base::GameObject {
 public:
-  Terrain(const FilePath& path_csv, graphic::Handle ghandle);
+  Terrain(const FilePath& path_csv, graphic::Handle ghandle, int y_offset = 0);
   ~Terrain() override = default;
 
   void Setup();
@@ -30,6 +30,7 @@ private:
 private:
   const FilePath path_csv_;
   const graphic::Handle ghandle_;
+  const int y_offset_;
 
   size_t y_count_ {};
   size_t x_count_ {};

@@ -7,7 +7,10 @@ enum class Handle : uint8_t {
   Itekoma,
   Rat,
 
-  MapChip1
+  Background3,
+
+  MapChip1,
+  MapChip3
 };
 
 

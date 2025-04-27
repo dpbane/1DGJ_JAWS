@@ -4,11 +4,12 @@
 #include "game/object/ui/ui_master.h"
 
 #include "game/object/enemy/dummy.h"
+#include "game/object/terrain/background.h"
 
 namespace scene {
 
 Level1::Level1(const InitData& init) : IScene { init } {
-  const auto terrain_handle = m_object_.Add(std::make_unique<game::Terrain>(U"resource/map/level1.csv", graphic::Handle::MapChip1));
+  const auto terrain_handle = m_object_.Add(std::make_unique<game::Terrain>(U"resource/map/level1.csv", graphic::Handle::MapChip3, -18));
   terrain_ = m_object_.GetAs<game::Terrain>(terrain_handle).value();
 
   const auto player_hanlde = m_object_.Add(std::make_unique<game::Player>(terrain_, Vec2(720, 448)));
@@ -16,6 +17,7 @@ Level1::Level1(const InitData& init) : IScene { init } {
 
   m_object_.Add(std::make_unique<game::UiMaster>(player_));
 
+  m_object_.Add(std::make_unique<game::Background>(graphic::Handle::Background3));
   m_object_.Add(std::make_unique<game::DummyEnemy>(terrain_, Vec2(690, 400)));
 }
 
