@@ -23,7 +23,7 @@ public:
   Optional<T*> GetAs(const ObjectHandle& handle) const {
     auto obj = Get(handle);
     if (not obj) return std::nullopt;
-    return dynamic_cast<T*>(obj.value());
+    return dynamic_cast<T*>(obj);
   }
 
 private:

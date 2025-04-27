@@ -7,7 +7,7 @@ namespace game {
 
 class Player : public base::GameObject, public EnemyBase {
 public:
-  Player(const Vec2& position);
+  Player(Terrain* terrain, const Vec2& position);
   ~Player() = default;
 
   void Setup() override;
@@ -21,8 +21,13 @@ public:
   Optional<int> RenderOrder() const override { return 100; }
   Optional<int> Tag() const override { return 100; }
 
-private:
+  int GetHp() const { return hp_; }
+  int GetMaxHp() const { return max_hp_; }
 
+  Vec2 GetPosition() const { return position_; }
+
+private:
+  int max_hp_ { 8 };
 
 };
 

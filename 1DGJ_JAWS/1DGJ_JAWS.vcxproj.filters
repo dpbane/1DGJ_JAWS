@@ -159,6 +159,18 @@
     <ClCompile Include="game\object\player\player.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="game\scene\level1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\object\terrain\terrain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\object\ui\ui_master.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="game\object\enemy\enemy_base.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="App\icon.ico">
@@ -891,6 +903,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="game\scene\level1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="game\object\ui\ui_master.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

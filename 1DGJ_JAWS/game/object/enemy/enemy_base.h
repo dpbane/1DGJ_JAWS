@@ -1,21 +1,16 @@
 ﻿#pragma once
 
+#include "game/object/terrain/terrain.h"
+
 namespace game {
 
 class EnemyBase {
 public:
+  EnemyBase(Terrain* terrain) : terrain_(terrain) {}
   virtual ~EnemyBase() = default;
 
-  bool EnemyPreUpdate() {
-    bool ret { true };
-    if (hp_ <= 0 && previous_hp_ > 0) ret = OnHpZero();
-    previous_hp_ = hp_;
-    return ret;
-  }
-
-  bool EnemyPostUpdate() {
-    position_ += velocity_ * Scene::DeltaTime();
-  }
+  bool EnemyPreUpdate();
+  bool EnemyPostUpdate();
 
   virtual bool OnHpZero() = 0;
 
@@ -23,7 +18,7 @@ public:
     hp_ = std::max(hp_ - damage, 0);
   }
 
-  void RenderHitbox() const;
+  void RenderHitbox(const Camera2D& camera) const;
 
 protected:
   Vec2 position_ {};
@@ -32,7 +27,9 @@ protected:
   int atk_power_ = 0;
   Array<Rect> hitbox_ {};  // オブジェクトのくらい判定
   Array<Rect> attackbox_ {};  // オブジェクトの攻撃判定
-  Rect terrainbox_;  // 地形判定用
+  Optional<Rect> terrainbox_;  // 地形判定用
+
+  Terrain* terrain_ { nullptr };
 };
 
 
