@@ -123,6 +123,7 @@
     <ClCompile Include="base_system\window_manager\window_manager.cpp" />
     <ClCompile Include="game\game.cpp" />
     <ClCompile Include="game\input\input_binder.cpp" />
+    <ClCompile Include="game\object\effect\death_effect.cpp" />
     <ClCompile Include="game\object\effect\hit_effect.cpp" />
     <ClCompile Include="game\object\effect\itekomasu_cut_in.cpp" />
     <ClCompile Include="game\object\effect\title_image.cpp" />
@@ -373,6 +374,7 @@
     <ClInclude Include="game\graphic\graphic_enum.h" />
     <ClInclude Include="game\input\input_binder.h" />
     <ClInclude Include="game\input\input_enum.h" />
+    <ClInclude Include="game\object\effect\death_effect.h" />
     <ClInclude Include="game\object\effect\hit_effect.h" />
     <ClInclude Include="game\object\effect\itekomasu_cut_in.h" />
     <ClInclude Include="game\object\effect\title_image.h" />
