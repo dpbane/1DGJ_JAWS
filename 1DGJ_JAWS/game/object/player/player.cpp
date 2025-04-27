@@ -1,10 +1,13 @@
 ﻿#include "stdafx.h"
 #include "player.h"
 
+#include "base_system/game_object/game_object_manager.h"
+#include "game/object/effect/hit_effect.h"
 
 namespace game {
 
-constexpr double kGravity = 200.0;
+constexpr double kGravity = 300.0;
+constexpr double kMaxVelcity = 500.0;
 
 Player::Player(Terrain* terrain, const Vec2& position) :
   EnemyBase(terrain) {
@@ -26,6 +29,9 @@ bool Player::Update() {
   EnemyPreUpdate();
 
   velocity_.y += kGravity * Scene::DeltaTime();
+  velocity_.y = std::min(velocity_.y, kMaxVelcity);
+
+
 
   EnemyPostUpdate();
   return true;
