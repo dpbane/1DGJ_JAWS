@@ -8,7 +8,6 @@ public:
   ~MapChip() = default;
 
   const bool IsWall();  // trueだと進入不可になる
-  const bool IsFloor();  // trueだと足場判定あり。すり抜け床等に
 
 private:
   int index_;
