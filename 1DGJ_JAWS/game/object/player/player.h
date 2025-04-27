@@ -57,6 +57,7 @@ public:
 
 private:
   void SetState(StateEnum s);
+  void GravityProcess();
 
 private:
   HashTable<StateEnum, std::unique_ptr<State>> state_map_;

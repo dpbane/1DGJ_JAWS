@@ -20,6 +20,10 @@ public:
 
   void RenderHitbox(const Camera2D& camera) const;
 
+  Array<Rect> GetHitbox() const;
+  Array<Rect> GetAttackbox() const;
+  Optional<Rect> GetTerrainbox() const;
+
 protected:
   Vec2 position_ {};
   Vec2 velocity_ { 0, 0 };
@@ -29,6 +33,8 @@ protected:
   Array<Rect> attackbox_ {};  // オブジェクトの攻撃判定
   Optional<Rect> terrainbox_;  // 地形判定用
   bool on_ground_ { true };  // 着地していたらtrue
+  bool is_flipped_ { false };  // 左右反転しているか
+  float hitstop_ { 0.0f };  // ヒットストップ。単位は秒、0より大きいと有効。実装は継承先に任せる
 
   Terrain* terrain_ { nullptr };
 };

@@ -28,6 +28,7 @@ Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
 
 template<>
 void Player::StateImpl<S>::Update(Player& player) {
+  player.velocity_ = { 0, 0 };
 }
 
 }

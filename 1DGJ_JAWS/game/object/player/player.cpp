@@ -14,10 +14,8 @@ Player::Player(Terrain* terrain, const Vec2& position) :
   position_ = position;
   velocity_ = Vec2(0, 0);
   atk_power_ = 3;
-
   hp_ = max_hp_;
   previous_hp_ = max_hp_;
-
   terrainbox_ = Rect(-32, -64, 64, 128);
 
   SetState(StateEnum::Stand);
@@ -47,9 +45,6 @@ bool Player::Update() {
   }
   state_map_.at(state_)->Update(*this);
 
-  velocity_.y += kGravity * Scene::DeltaTime();
-  velocity_.y = std::min(velocity_.y, kMaxVelcity);
-
   EnemyPostUpdate();
   return true;
 }
@@ -71,6 +66,11 @@ void Player::Release() {
 
 void Player::SetState(StateEnum s) {
   state_ = s;
+}
+
+void Player::GravityProcess() {
+  velocity_.y += kGravity * Scene::DeltaTime();
+  velocity_.y = std::min(velocity_.y, kMaxVelcity);
 }
 
 

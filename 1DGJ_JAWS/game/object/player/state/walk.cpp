@@ -7,6 +7,8 @@ namespace game {
 
 constexpr Player::StateEnum S = Player::StateEnum::Walk;
 
+constexpr double kWalkSpeed = 200.0;
+
 template<>
 Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
   // Air
@@ -27,6 +29,14 @@ Optional<Player::StateEnum> Player::StateImpl<S>::Transition(Player& player) {
 
 template<>
 void Player::StateImpl<S>::Update(Player& player) {
+  if (ref::MInput.Pressed(input::Action::Left)) {
+    player.velocity_.x = -kWalkSpeed;
+  }
+  if (ref::MInput.Pressed(input::Action::Right)) {
+    player.velocity_.x = kWalkSpeed;
+  }
+
+
 }
 
 }
