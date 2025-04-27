@@ -7,6 +7,35 @@ namespace game {
 
 class Player : public base::GameObject, public EnemyBase {
 public:
+  enum class StateEnum {
+    Stand,
+    Walk,
+    Air,
+    Guard,
+    StepFront,
+    StepBack,
+    PunchGround,
+    PunchAir,
+    KickGround,
+    KickAir
+  };
+
+  class State abstract {
+  public:
+    virtual ~State() = default;
+    virtual Optional<StateEnum> Transition(Player& player) = 0;
+    virtual void Update(Player& player) = 0;
+  };
+
+  template<StateEnum S>
+  class StateImpl : public State {
+  public:
+    ~StateImpl() override = default;
+    Optional<StateEnum> Transition(Player& player) override;
+    void Update(Player& player) override;
+  };
+
+public:
   Player(Terrain* terrain, const Vec2& position);
   ~Player() = default;
 
@@ -27,6 +56,11 @@ public:
   Vec2 GetPosition() const { return position_; }
 
 private:
+  void SetState(StateEnum s);
+
+private:
+  HashTable<StateEnum, std::unique_ptr<State>> state_map_;
+  StateEnum state_;
   int max_hp_ { 8 };
 
 };

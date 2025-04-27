@@ -23,6 +23,8 @@ public:
   void Load();  // 引数とか実装は任せます
 
   bool Conflict(const Rect& box) const;
+  double NearestX(double x) const;  // 指定したX座標から最も近いチップの境目の座標を得る
+  double NearestY(double y) const;  // 指定したX座標から最も近いチップの境目の座標を得る
 
 };
 

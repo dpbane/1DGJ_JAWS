@@ -28,6 +28,7 @@ protected:
   Array<Rect> hitbox_ {};  // オブジェクトのくらい判定
   Array<Rect> attackbox_ {};  // オブジェクトの攻撃判定
   Optional<Rect> terrainbox_;  // 地形判定用
+  bool on_ground_ { true };  // 着地していたらtrue
 
   Terrain* terrain_ { nullptr };
 };

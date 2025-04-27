@@ -23,10 +23,13 @@ void Level1::update() {
 }
 
 void Level1::draw() const {
-  m_object_.Render(camera_);
-
   ClearPrint();
   Print << Profiler::FPS() << U" FPS\n";
+
+  m_object_.Render(camera_);
+
+
+
 }
 
 

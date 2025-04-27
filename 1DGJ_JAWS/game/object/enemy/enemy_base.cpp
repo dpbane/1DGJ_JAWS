@@ -4,7 +4,7 @@
 namespace game {
 
 bool EnemyBase::EnemyPreUpdate() {
-  bool ret{ true };
+  bool ret { true };
   if (hp_ <= 0 && previous_hp_ > 0) ret = OnHpZero();
   previous_hp_ = hp_;
   return ret;
@@ -18,29 +18,39 @@ bool EnemyBase::EnemyPostUpdate() {
   }
 
   // まずX方向の位置更新
-  position_.x += velocity_.x * Scene::DeltaTime();
-  double offset_x = 0;
-  while (true) {
+  {
+    position_.x += velocity_.x * Scene::DeltaTime();
     const Point pos = Point((int)position_.x, (int)position_.y);
+    const auto& box_raw = terrainbox_.value();
     const auto& box = terrainbox_.value().movedBy(pos);
-    if (not terrain_->Conflict(box)) break;
-    if (velocity_.x > 0) offset_x = -0.5;
-    if (velocity_.x < 0) offset_x = 0.5;
-    position_.x += offset_x;
-    velocity_.x = 0;
+    if (terrain_->Conflict(box)) {
+      if (velocity_.x > 0) {
+        position_.x = terrain_->NearestX(box.rightX()) - box_raw.rightX();
+      }
+      if (velocity_.x < 0) {
+        position_.x = terrain_->NearestX(box.leftX()) - box_raw.leftX();
+      }
+      velocity_.x = 0;
+    }
   }
 
   // 次にY方向の位置更新
-  position_.y += velocity_.y * Scene::DeltaTime();
-  double offset_y = 0;
-  while (true) {
+  {
+    position_.y += velocity_.y * Scene::DeltaTime();
+    on_ground_ = false;
     const Point pos = Point((int)position_.x, (int)position_.y);
+    const auto& box_raw = terrainbox_.value();
     const auto& box = terrainbox_.value().movedBy(pos);
-    if (not terrain_->Conflict(box)) break;
-    if (velocity_.y > 0) offset_y = -0.5;
-    if (velocity_.y < 0) offset_y = 0.5;
-    position_.y += offset_y;
-    velocity_.y = 0;
+    if (terrain_->Conflict(box)) {
+      if (velocity_.y > 0) {
+        position_.y = terrain_->NearestY(box.bottomY()) - box_raw.bottomY() + 1;  // 1ドットだけ下げて着地判定を継続
+        on_ground_ = true;
+      }
+      if (velocity_.y < 0) {
+        position_.y = terrain_->NearestX(box.topY()) - box_raw.topY();
+      }
+      velocity_.y = 0;
+    }
   }
 
   return true;

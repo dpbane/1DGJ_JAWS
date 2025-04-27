@@ -126,6 +126,16 @@
     <ClCompile Include="game\object\effect\hit_effect.cpp" />
     <ClCompile Include="game\object\enemy\enemy_base.cpp" />
     <ClCompile Include="game\object\player\player.cpp" />
+    <ClCompile Include="game\object\player\state\air.cpp" />
+    <ClCompile Include="game\object\player\state\guard.cpp" />
+    <ClCompile Include="game\object\player\state\kick_air.cpp" />
+    <ClCompile Include="game\object\player\state\kick_ground.cpp" />
+    <ClCompile Include="game\object\player\state\punch_air.cpp" />
+    <ClCompile Include="game\object\player\state\punch_ground.cpp" />
+    <ClCompile Include="game\object\player\state\step_back.cpp" />
+    <ClCompile Include="game\object\player\state\stand.cpp" />
+    <ClCompile Include="game\object\player\state\step_front.cpp" />
+    <ClCompile Include="game\object\player\state\walk.cpp" />
     <ClCompile Include="game\object\terrain\terrain.cpp" />
     <ClCompile Include="game\object\ui\ui_master.cpp" />
     <ClCompile Include="game\scene\level1.cpp" />
