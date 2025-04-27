@@ -27,6 +27,8 @@ void Game::Setup() {
   ref::MGraphic.Register(graphic::Handle::MapChip1, U"resource/image/mapchip1.png");
   ref::MGraphic.RegisterChip(graphic::Handle::MapChip1, 64, 64, 3);
 
+  ref::MGraphic.Register(graphic::Handle::Rat, U"resource/image/rat.png");
+
   ref::MAudio.Register(audio::Handle::Sample, U"resource/audio/maou_se_system46.ogg");
 
   Addon::Register(U"FrameRateLimit", std::make_unique<base::FrameRateLimitAddon>(target_fps));
