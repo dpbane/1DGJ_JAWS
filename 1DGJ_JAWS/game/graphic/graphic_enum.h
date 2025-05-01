@@ -10,6 +10,7 @@ enum class Handle : uint8_t {
   Player,
   Ninja,
 
+  Background1,
   Background2,
   Background3,
 
